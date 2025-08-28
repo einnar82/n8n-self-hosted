@@ -1,0 +1,14 @@
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    restart: always
+    env_file: .env
+    # Bind only to localhost; Nginx is the public entry
+    ports:
+      - "127.0.0.1:5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+      # mount your private CA so Node can trust it for outbound calls
+      - /etc/nginx/ssl/ca-root.pem:/etc/ssl/private-ca/ca-root.pem:ro
+volumes:
+  n8n_data:
